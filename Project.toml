@@ -3,6 +3,9 @@ uuid = "32f2dd74-f74d-434c-9211-e2f9435e7f91"
 authors = ["António Capela"]
 version = "0.1.0"
 
+[deps]
+BoardGames = "a25c074d-a6f8-44e3-8722-7dc1f329dbb4"
+
 [compat]
 julia = "1"
 
