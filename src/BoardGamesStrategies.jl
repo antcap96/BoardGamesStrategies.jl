@@ -4,10 +4,12 @@ using BoardGames
 
 # Write your package code here.
 
-export 
+export
     # Types
-    RandomStrategy
+    RandomStrategy,
+    MCTSStrategy
 
 include("RandomStrategy.jl")
+include("MCTSStrategy.jl")
 
 end
