@@ -31,3 +31,5 @@ after_success:
       Pkg.add("Coverage")
       using Coverage
       Coveralls.submit(process_folder())'
+before_install:
+  - julia -e "using Pkg;Pkg.add(PackageSpec(url=\"https://github.com/antcap96/BoardGames.jl\"))"
