@@ -8,11 +8,11 @@ mutable struct TreeNode{Board}
 
     expanded::Bool
     children::Vector{TreeNode{Board}}
-    parent::TreeNode
+    parent::TreeNode{Board}
 
 
     function TreeNode(board::Board) where {Board}
-        new{Board}(board, 0, 0, false, TreeNode[])
+        new{Board}(board, 0, 0, false, TreeNode{Board}[])
      end
 end
 
@@ -31,6 +31,10 @@ MCTSTree(board::Board) where {Board} = MCTSTree(TreeNode(board))
 struct MCTSStrategy{G <: Game} <: Strategy
     nsteps::Int
     c::Float64
+end
+
+function MCTSStrategy{G}(nsteps::Int) where {G <: Game}
+    MCTSStrategy{G}(nsteps, √2)
 end
 
 function BoardGames.getmove(board, s::MCTSStrategy; verbose=false)
@@ -58,6 +62,7 @@ function expand(node::TreeNode)
         push!(node.children, TreeNode(play(node.board, move), node))
     end
     node.expanded = true
+    nothing
 end
 
 function select(node::TreeNode, player::Int, c=√2)
@@ -85,6 +90,7 @@ function backpropagate(node::TreeNode, w::Float64)
     end
     node.w += w
     node.n += 1
+    nothing
 end
 
 function step(node::TreeNode, player::Int, c::Float64)
@@ -103,6 +109,7 @@ function step(node::TreeNode, player::Int, c::Float64)
         i = select(node, player, c)
         step(node.children[i], player, c)
     end
+    nothing
 end
 
 function random_argmax(v)
