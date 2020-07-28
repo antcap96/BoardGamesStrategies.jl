@@ -1,5 +1,10 @@
 using BoardGames
 
+struct MCTSStrategy{G <: Game} <: Strategy
+    nsteps::Int
+    c::Float64
+end
+
 mutable struct TreeNode{Board}
     board::Board
 
@@ -27,11 +32,6 @@ struct MCTSTree{Board}
 end
 
 MCTSTree(board::Board) where {Board} = MCTSTree(TreeNode(board))
-
-struct MCTSStrategy{G <: Game} <: Strategy
-    nsteps::Int
-    c::Float64
-end
 
 function MCTSStrategy{G}(nsteps::Int) where {G <: Game}
     MCTSStrategy{G}(nsteps, √2)
