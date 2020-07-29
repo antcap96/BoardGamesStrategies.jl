@@ -1,11 +1,7 @@
 struct Minimax{G <: Game, H} <: Strategy
     depth::Int
+    heuristic::H
 end
-
-"""
-heristic(strategy, board, player)
-"""
-function heuristic end
 
 function BoardGames.getmove(board, s::Minimax; verbose=false)
     @assert !isempty(getmoves(board))
@@ -28,7 +24,7 @@ function expand(board, s::Minimax, player::Int, depth::Int)
 
     if isempty(moves) || depth == 0
         best_move = 0
-        best_score = heuristic(s, board, player)
+        best_score = s.heuristic(board, player)
     else
         for i in 1:length(moves)
             next_board = play(board, moves[i])
