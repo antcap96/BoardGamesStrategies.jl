@@ -3,6 +3,8 @@ struct MinimaxAlphaBeta{G <: Game, H} <: Strategy
     heuristic::H
 end
 
+MinimaxAlphaBeta{G}(depth::Int, heuristic::H) where {G<:Game, H} = MinimaxAlphaBeta{G,H}(depth, heuristic)
+
 function BoardGames.getmove(board, s::MinimaxAlphaBeta; verbose=false)
     @assert !isempty(getmoves(board))
     move, score = expand(board, s, playerturn(board), s.depth, -Inf, Inf)
