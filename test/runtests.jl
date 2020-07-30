@@ -15,13 +15,16 @@ end
 
 @testset "BoardGamesStrategies.jl" begin
     #a bit random but player 1 should win
+    @test 0 <= winner(playgame(b, RandomStrategy{TicTacToe}(), 
+                                  RandomStrategy{TicTacToe}())) <= 2
+
     @test winner(playgame(b, MCTSStrategy{TicTacToe}(10000, √2),
                              MCTSStrategy{TicTacToe}(10000, √2))) == 1
 
-    @test winner(playgame(b, Minimax{TicTacToe, typeof(heuristic)}(10,heuristic),
-                             Minimax{TicTacToe, typeof(heuristic)}(10,heuristic))) == 1
+    @test winner(playgame(b, Minimax{TicTacToe}(10,heuristic),
+                             Minimax{TicTacToe}(10,heuristic))) == 1
 
-    @test winner(playgame(b, MinimaxAlphaBeta{TicTacToe, typeof(heuristic)}(10, heuristic),
-                             MinimaxAlphaBeta{TicTacToe, typeof(heuristic)}(10, heuristic))) == 1
+    @test winner(playgame(b, MinimaxAlphaBeta{TicTacToe}(10, heuristic),
+                             MinimaxAlphaBeta{TicTacToe}(10, heuristic))) == 1
 
 end
