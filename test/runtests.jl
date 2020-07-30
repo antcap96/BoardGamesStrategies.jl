@@ -9,7 +9,7 @@ b = TicTacToeBoard()
 b = play(b, 1)
 b = play(b, 2)
 
-function BoardGamesStrategies.heuristic(m, b::TicTacToeBoard, player::Int64)
+function heuristic(b::TicTacToeBoard, player::Int64)
     b.winner * -((player - 2) * 2 + 1)
 end
 
@@ -18,10 +18,10 @@ end
     @test winner(playgame(b, MCTSStrategy{TicTacToe}(10000, √2),
                              MCTSStrategy{TicTacToe}(10000, √2))) == 1
 
-    @test winner(playgame(b, Minimax{TicTacToe, 1}(10),
-                             Minimax{TicTacToe, 1}(10))) == 1
+    @test winner(playgame(b, Minimax{TicTacToe, typeof(heuristic)}(10,heuristic),
+                             Minimax{TicTacToe, typeof(heuristic)}(10,heuristic))) == 1
 
-    @test winner(playgame(b, MinimaxAlphaBeta{TicTacToe, 1}(10),
-                             MinimaxAlphaBeta{TicTacToe, 1}(10))) == 1
+    @test winner(playgame(b, MinimaxAlphaBeta{TicTacToe, typeof(heuristic)}(10, heuristic),
+                             MinimaxAlphaBeta{TicTacToe, typeof(heuristic)}(10, heuristic))) == 1
 
 end
