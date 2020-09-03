@@ -1,6 +1,6 @@
 using BoardGames
 
-struct MCTSStrategy{G <: Game} <: Strategy
+mutable struct MCTSStrategy{G <: Game} <: Strategy
     nsteps::Int
     c::Float64
 end
@@ -132,3 +132,28 @@ function random_argmax(v)
     end
     return best_idx
 end
+
+function Base.copy(s::MCTSStrategy{T}) where T
+    MCTSStrategy{T}(s.nsteps, s.c)
+end
+
+function BoardGames.getvarsnames(s::MCTSStrategy)
+    return ["iterations", "c"]
+end
+
+function BoardGames.getvalues(s::MCTSStrategy)
+    (s.nsteps, s.c)
+end
+
+function BoardGames.setvalue!(s::MCTSStrategy, name::AbstractString, value)
+    if name == "iterations"
+        s.nsteps = parse(Int, value)
+    elseif name == "c"
+        s.c = parse(Float64, value)
+    else
+        error("invalid set for parameter $name for strategy $s")
+    end
+    nothing
+end
+
+BoardGames.name(::MCTSStrategy) = "MCTS"
